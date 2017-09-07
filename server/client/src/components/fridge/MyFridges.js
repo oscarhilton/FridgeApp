@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getMyFridges } from '../actions/fridgeActions';
+import { getMyFridges } from '../../actions/fridgeActions';
 
 class YourFridges extends Component {
   componentDidMount() {

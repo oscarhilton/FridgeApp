@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import { fetchUser } from '../actions/authActions';
 
 import Header from './Header';
 import LandingPage from './LandingPage';
@@ -9,7 +9,7 @@ import Dashboard from './Dashboard';
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchUser();
+    this.props.fetchUser;
   }
   render() {
     return (
@@ -26,4 +26,4 @@ class App extends Component {
   }
 }
 
-export default connect(null, actions)(App);
+export default connect(null, fetchUser)(App);

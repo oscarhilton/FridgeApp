@@ -15,16 +15,18 @@ class FoundUser extends Component {
             {this.props.foundUser.firstName} {this.props.foundUser.lastName} (<span>{this.props.foundUser.email})</span>
           </div>
           <div>
-            <button type="button" className="btn btn-success">Add this user</button>
+            <button onClick={this.clickFunction.bind(this)} type="button" className="btn btn-success">{this.props.btnText}</button>
           </div>
         </div>
       )
     }
   }
+  clickFunction(){
+    this.props.clickFunction(this.props.foundUser);
+  }
   render(){
     return (
       <div>
-        <h3>Found user</h3>
         {this.renderFoundUser()}
       </div>
     )
