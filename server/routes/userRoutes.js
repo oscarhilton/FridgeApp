@@ -4,7 +4,6 @@ const requireLogin = require('../middlewares/requireLogin');
 
 module.exports = app => {
   app.get('/api/user/find', (req, res) => {
-    console.log('from axios: ', req.query.email);
     const email = req.query.email;
     User.findOne({ email }, (err, user) => {
       if(err) {

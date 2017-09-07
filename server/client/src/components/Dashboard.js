@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import NewFridge from './NewFridge';
+import MyFridges from './MyFridges';
 
 class Dashboard extends Component {
   render() {
@@ -11,6 +12,7 @@ class Dashboard extends Component {
             Welcome back, {this.props.auth.firstName}.
           </h1>
         </div>
+        <MyFridges />
         <NewFridge />
       </div>
     );
