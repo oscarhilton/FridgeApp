@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import NewFridge from './fridge/NewFridge';
-import MyFridges from './fridge/MyFridges';
+import NewFridge from '../fridge/NewFridge';
+import MyFridges from '../fridge/MyFridges';
 
 class Dashboard extends Component {
   render() {

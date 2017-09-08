@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
+import InfoMessage from '../common/InfoMessage';
 
 class FoundUser extends Component {
   renderFoundUser(){
     if(this.props.foundUser.errorMessage){
       return(
-        <div className="alert alert-danger">
-          <span><strong>Error.</strong> - {this.props.foundUser.errorMessage}</span>
-        </div>
+        <InfoMessage type='danger' heading="Error:" message={this.props.foundUser.errorMessage} />
       )
     } else if (this.props.foundUser.firstName) {
       return(

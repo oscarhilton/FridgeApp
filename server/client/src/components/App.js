@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchUser } from '../actions/authActions';
+import * as actions from '../actions/authActions';
 
-import Header from './Header';
-import LandingPage from './LandingPage';
-import Dashboard from './Dashboard';
+import Header from './common/Header';
+import LandingPage from './pages/LandingPage';
+import Dashboard from './pages/Dashboard';
+import Fridge from './pages/Fridge';
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchUser;
+    this.props.fetchUser();
   }
   render() {
     return (
@@ -19,6 +20,7 @@ class App extends Component {
             <Header />
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/fridge/:id" component={Fridge} />
           </div>
         </BrowserRouter>
       </div>
@@ -26,4 +28,4 @@ class App extends Component {
   }
 }
 
-export default connect(null, fetchUser)(App);
+export default connect(null, actions)(App);
