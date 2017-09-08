@@ -27,7 +27,7 @@ export const setUserList = () => async dispatch => {
 
 export const getFridgeById = (id) => async dispatch => {
   const res = await axios.get('/api/fridge/findById', { params: {id } });
-  console.log(res.data);
+  console.log('getFridgeById: ', res.data);
   dispatch({ type: GET_FRIDGE_BY_ID, payload: {
     validPage: true,
     current: res.data

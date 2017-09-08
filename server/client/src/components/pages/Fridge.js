@@ -10,6 +10,9 @@ import { getFridgeById } from '../../actions/fridgeActions';
 class Fridge extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      lastUpdated: '?'
+    }
   }
   componentDidMount(){
     this.props.dispatch(getFridgeById(this.props.match.params.id));
@@ -20,43 +23,34 @@ class Fridge extends Component {
      }
     if(newProps.fridge !== this.props.fridge){
          this.setState({fridge: newProps.fridge.current });
+         this.getLastUpdate(newProps.fridge.current.lastUpdated);
      }
   }
-  getLastUpdate(){
-    var updateDate = new Date(this.props.fridge.current.lastUpdated);
+  getLastUpdate(update){
+    var updateDate = new Date(update);
     var currentDate = new Date();
     var seconds = (currentDate.getTime() - updateDate.getTime()) / 1000;
     var minutes = Math.floor(seconds / 60);
     if(seconds < 10){
-      <span>Last updated a moment ago</span>
+      this.setState({
+        lastUpdate: `Last updated a moment ago`
+      })
     } else if(seconds < 60){
-      return(
-        <h4>
-          <span className="label label-success">
-            Last updated {seconds} seconds ago
-          </span>
-        </h4>
-      )
+      this.setState({
+        lastUpdate: `Last updated ${seconds} seconds ago`
+      })
     } else if(seconds < 120){
-      return(
-        <h4>
-          <span className="label label-success">
-            Last updated {minutes} minute ago
-          </span>
-        </h4>
-      )
+      this.setState({
+        lastUpdate: `Last updated ${minutes} minute ago`
+      })
     } else {
-      return(
-        <h4>
-          <span className="label label-success">
-            Last updated {minutes} minutes ago
-          </span>
-        </h4>
-      )
+      this.setState({
+        lastUpdate: `Last updated ${minutes} minutes ago`
+      })
     }
   }
   render() {
-    console.log('returned items: ', this.props.items);
+    console.log('state: ', this.state);
     if(this.props.fridge.validPage){
       return (
         <div className="container">
@@ -74,7 +68,9 @@ class Fridge extends Component {
             <h4>Users</h4>
             <UserList users={this.props.fridge.current._users} />
           </div>
-          {this.getLastUpdate()}
+          <h4>
+            <span className="label label-success">{this.state.lastUpdate}</span>
+          </h4>
         </div>
       );
     } else {
@@ -99,29 +95,5 @@ function mapStateToProps(state) {
   };
 }
 //this.props.items
-// var update = this.props.fridge.current.lastUpdated;
-// if(this.props.fridge.current.lastUpdated){
-//   var updateDate = new Date(update);
-//   var currentDate = new Date();
-//   var seconds = (currentDate.getTime() - updateDate.getTime()) / 1000;
-//   var minutes = Math.floor(seconds / 60);
-//   if(seconds < 10){
-//     this.setState({
-//       lastUpdate: `Last updated a moment ago`
-//     })
-//   } else if(seconds < 60){
-//     this.setState({
-//       lastUpdate: `Last updated ${seconds} seconds ago`
-//     })
-//   } else if(seconds < 120){
-//     this.setState({
-//       lastUpdate: `Last updated ${minutes} minute ago`
-//     })
-//   } else {
-//     this.setState({
-//       lastUpdate: `Last updated ${minutes} minutes ago`
-//     })
-//   }
-// }
 
 export default connect(mapStateToProps)(Fridge);
