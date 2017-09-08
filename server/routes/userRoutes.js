@@ -3,7 +3,7 @@ const User = mongoose.model('users');
 const requireLogin = require('../middlewares/requireLogin');
 
 module.exports = app => {
-  app.get('/api/user/find', (req, res) => {
+  app.get('/api/user/find/byEmail', (req, res) => {
     const email = req.query.email;
     User.findOne({ email }, (err, user) => {
       if(err) {

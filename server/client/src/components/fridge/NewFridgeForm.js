@@ -52,10 +52,4 @@ class NewFridge extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    foundUser: state.foundUser
-  };
-}
-
-export default connect( mapStateToProps )(NewFridge);
+export default connect()(NewFridge);

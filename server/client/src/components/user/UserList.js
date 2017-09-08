@@ -1,19 +1,20 @@
 import React from 'react';
-import InfoMessage from '../common/InfoMessage';
 
 const UserList = (props) => {
   const renderUsers = () => {
     const list = props.users.map((user) => {
+      console.log(user);
       return(
-        <li key={user._id}>
-          <InfoMessage type='info' heading={user.firstName + ' ' + user.lastName} message={user.email} />
+        <li key={user._id || user} className="list-group-item">
+          <strong>{user.firstName + ' ' + user.lastName}</strong>
+          <span> - {user.email}</span>
         </li>
       )
     });
     return list;
   };
   return(
-    <ol>
+    <ol className="list-group">
       {renderUsers()}
     </ol>
   )

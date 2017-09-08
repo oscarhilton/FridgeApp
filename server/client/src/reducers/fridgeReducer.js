@@ -1,4 +1,9 @@
-import { CREATE_FRIDGE, GET_MY_FRIDGES, SET_USER_LIST, GET_FRIDGE_BY_ID } from '../actions/types';
+import {
+         CREATE_FRIDGE,
+         GET_MY_FRIDGES,
+         SET_USER_LIST,
+         GET_FRIDGE_BY_ID,
+       } from '../actions/types';
 
 export default function(state = {}, action) {
   switch (action.type) {
