@@ -2,29 +2,36 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getMyFridges } from '../../actions/fridgeActions';
 
+import FridgeList from '../fridge/FridgeList';
+
 class YourFridges extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      fridge: []
+    }
+  }
   componentDidMount() {
     this.props.dispatch(getMyFridges());
   }
-  displayFridges() {
-    var fridgeList = this.props.fridge;
-    console.log('fridgeList: ', fridgeList);
-    if(fridgeList.data){
-      var list = fridgeList.data.map((d) => {
-          console.log(d);
-           return(
-             <li key={d._id}>{d._id}</li>
-           )
-        });
+  componentWillReceiveProps(newProps){
+    if(newProps.fridge !== this.props.fridge){
+         this.setState({fridge: newProps.fridge });
+         console.log(this.state);
+     }
+  }
+  renderList(){
+    if(this.state.fridge){
       return(
-        <ul>{list}</ul>
-      );
+        <FridgeList fridge={this.state.fridge} />
+      )
     }
   }
   render() {
     return (
       <div className="jumbotron">
-        {this.displayFridges()}
+        <h2>Your Fridges</h2>
+        <FridgeList fridge={this.state.fridge} />
       </div>
     );
   }
@@ -32,6 +39,7 @@ class YourFridges extends Component {
 
 function mapStateToProps(state) {
   return {
+    auth: state.auth,
     fridge: state.fridge
   };
 }

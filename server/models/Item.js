@@ -2,9 +2,15 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const itemSchema = new Schema({
+  tescoId: Number,
+  tpnb: Number,
   name: String,
   quantity: Number,
-  price: String
+  price: Number,
+  description: String,
+  image: String,
+  contentsQuantity: Number,
+  contentsMeasureType: String
 })
 
-module.exports = itemSchema;
+mongoose.model('item', itemSchema);

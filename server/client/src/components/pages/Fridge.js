@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import UserList from '../user/UserList';
 import ItemSearchBar from '../fridge/ItemSearchBar';
 import ItemList from '../fridge/ItemList';
+import ContentsList from '../fridge/ContentsList';
 
 import { getFridgeById } from '../../actions/fridgeActions';
 
@@ -15,7 +16,7 @@ class Fridge extends Component {
     }
   }
   componentDidMount(){
-    this.props.dispatch(getFridgeById(this.props.match.params.id));
+    this.props.dispatch(getFridgeById(this.props.match.params.id))
   }
   componentWillReceiveProps(newProps){
     if(newProps.items !== this.props.items){
@@ -26,11 +27,16 @@ class Fridge extends Component {
          this.getLastUpdate(newProps.fridge.current.lastUpdated);
      }
   }
+  getDateCreated(){
+
+  }
   getLastUpdate(update){
     var updateDate = new Date(update);
     var currentDate = new Date();
     var seconds = (currentDate.getTime() - updateDate.getTime()) / 1000;
     var minutes = Math.floor(seconds / 60);
+    var hour = Math.floor(minutes / 60);
+    console.log(seconds);
     if(seconds < 10){
       this.setState({
         lastUpdate: `Last updated a moment ago`
@@ -43,11 +49,18 @@ class Fridge extends Component {
       this.setState({
         lastUpdate: `Last updated ${minutes} minute ago`
       })
-    } else {
+    } else if (seconds > 120 && seconds < 3600) {
       this.setState({
         lastUpdate: `Last updated ${minutes} minutes ago`
       })
+    } else if (seconds > 3600) {
+      this.setState({
+        lastUpdate: `Last updated ${hour} hours ago`
+      })
     }
+  }
+  handleItemClick(item){
+    console.log('from Item Click: ', item);
   }
   render() {
     console.log('state: ', this.state);
@@ -58,15 +71,16 @@ class Fridge extends Component {
             <div className="col col-lg-6">
               <h4>Search for new items</h4>
               <ItemSearchBar />
-              <ItemList items={this.state.items} />
+              <ItemList items={this.state.items} fridge={this.state.fridge._id} />
             </div>
             <div className="col col-lg-6">
               <h4>Fridge contents</h4>
+              <ContentsList contents={this.state.fridge.items}/>
             </div>
           </div>
           <div>
             <h4>Users</h4>
-            <UserList users={this.props.fridge.current._users} />
+            <UserList users={this.state.fridge._users} />
           </div>
           <h4>
             <span className="label label-success">{this.state.lastUpdate}</span>
@@ -94,6 +108,5 @@ function mapStateToProps(state) {
     items: state.items
   };
 }
-//this.props.items
 
 export default connect(mapStateToProps)(Fridge);

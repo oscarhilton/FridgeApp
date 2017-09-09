@@ -3,6 +3,7 @@ import {
          GET_MY_FRIDGES,
          SET_USER_LIST,
          GET_FRIDGE_BY_ID,
+         ADD_ITEM
        } from '../actions/types';
 
 export default function(state = {}, action) {
@@ -15,6 +16,11 @@ export default function(state = {}, action) {
       return action.payload || false;
     case GET_FRIDGE_BY_ID:
       return action.payload || false;
+    case ADD_ITEM:
+      return state = {
+        ...state,
+        newItem: action.payload || false
+      }
     default:
       return state;
   }

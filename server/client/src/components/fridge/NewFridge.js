@@ -28,15 +28,12 @@ class NewFridge extends Component {
     this.setState({
       usersToAdd: [...this.state.usersToAdd, user]
     })
-    console.log(this.state);
   }
   createFridge(){
-    console.log('creating......')
     var {dispatch} = this.props;
     dispatch(createFridge(this.state.usersToAdd));
   }
   addUser(user){
-    console.log('From clickFunction', user);
     var index = this.state.usersToAdd.indexOf(user);
     if(index < 0){
       this.setState({
