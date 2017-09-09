@@ -70,7 +70,7 @@ module.exports = app => {
         if(err) {return err;} else {
           fridge.items.push(item);
           fridge.save();
-          console.log('Updated! ', fridge);
+          console.log('fridge updated!', fridge)
           res.send(fridge);
         }
       })
@@ -78,6 +78,7 @@ module.exports = app => {
 
     Item.findOne({ tescoId: item.id }, (err, request) => {
       if (!request){
+        console.log('making new item record')
         const newItem = new Item({
           tescoId: item.id,
           tpnb: item.tpnb,
@@ -87,14 +88,16 @@ module.exports = app => {
           description: item.description,
           image: item.image,
           contentsQuantity: item.contentsQuantity,
-          contentsMeasureType: item.contentsMeasureType
+          contentsMeasureType: item.contentsMeasureType,
+          dateAdded: Date.now()
         })
 
         newItem.save((err, data) => {
           if(err) {
             return res.send({ errorMessage: 'Could not save'});
           } else {
-            addToFridge(item, fridgeToAdd);
+            console.log('New item saved. Sending the following to addToFridge:', data);
+            addToFridge(data, fridgeToAdd);
           }
         });
       } else {

@@ -8,6 +8,8 @@ import ContentsList from '../fridge/ContentsList';
 
 import { getFridgeById } from '../../actions/fridgeActions';
 
+import formatDate from '../../modules/formatDate';
+
 class Fridge extends Component {
   constructor(props){
     super(props);
@@ -24,40 +26,19 @@ class Fridge extends Component {
      }
     if(newProps.fridge !== this.props.fridge){
          this.setState({fridge: newProps.fridge.current });
-         this.getLastUpdate(newProps.fridge.current.lastUpdated);
+         var lastFridgeUpdate = formatDate(newProps.fridge.current.lastUpdated);
+         this.setState({
+           lastUpdate: lastFridgeUpdate
+         })
+         var items = newProps.fridge.current.items;
+         items.forEach((item)=>{
+           var formattedTime = formatDate(item.dateAdded);
+           item.formattedDateAdded = formattedTime;
+         })
      }
   }
   getDateCreated(){
 
-  }
-  getLastUpdate(update){
-    var updateDate = new Date(update);
-    var currentDate = new Date();
-    var seconds = (currentDate.getTime() - updateDate.getTime()) / 1000;
-    var minutes = Math.floor(seconds / 60);
-    var hour = Math.floor(minutes / 60);
-    console.log(seconds);
-    if(seconds < 10){
-      this.setState({
-        lastUpdate: `Last updated a moment ago`
-      })
-    } else if(seconds < 60){
-      this.setState({
-        lastUpdate: `Last updated ${seconds} seconds ago`
-      })
-    } else if(seconds < 120){
-      this.setState({
-        lastUpdate: `Last updated ${minutes} minute ago`
-      })
-    } else if (seconds > 120 && seconds < 3600) {
-      this.setState({
-        lastUpdate: `Last updated ${minutes} minutes ago`
-      })
-    } else if (seconds > 3600) {
-      this.setState({
-        lastUpdate: `Last updated ${hour} hours ago`
-      })
-    }
   }
   handleItemClick(item){
     console.log('from Item Click: ', item);
@@ -83,7 +64,7 @@ class Fridge extends Component {
             <UserList users={this.state.fridge._users} />
           </div>
           <h4>
-            <span className="label label-success">{this.state.lastUpdate}</span>
+            <span className="label label-info">{this.state.lastUpdate}</span>
           </h4>
         </div>
       );

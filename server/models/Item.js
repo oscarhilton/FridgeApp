@@ -10,7 +10,8 @@ const itemSchema = new Schema({
   description: String,
   image: String,
   contentsQuantity: Number,
-  contentsMeasureType: String
+  contentsMeasureType: String,
+  dateAdded: Date
 })
 
 mongoose.model('item', itemSchema);

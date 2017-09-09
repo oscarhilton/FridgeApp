@@ -14,9 +14,15 @@ class ItemList extends Component {
   renderItems(){
     if(this.props.items){
       const list = this.props.items.map((item) => {
+        console.log(item);
         return(
           <li key={item.id} className="list-group-item" onClick={this.handleItemClick.bind(this, item, this.props.fridge)}>
-            <span>{item.name} </span><span className="pull-right">£{item.price}</span>
+            <div>
+              <strong>{item.name} </strong><span className="pull-right">£{item.price}</span>
+            </div>
+            <div>
+              <small>{item.description[0]}</small><small className="pull-right">{item.PromotionDescription}</small>
+            </div>
           </li>
         )
       });
