@@ -63,14 +63,13 @@ module.exports = app => {
 
   app.post('/api/fridge/addItem', requireLogin, (req, res) => {
     const item = req.body.item;
-    const fridgeToAdd = req.body.fridge.current._id
+    const fridgeToAdd = req.body.fridge;
 
     const addToFridge = (item, fridge) => {
       Fridge.findOne({ _id: fridge }, (err, fridge) => {
         if(err) {return err;} else {
           fridge.items.push(item);
           fridge.save();
-          console.log('fridge updated!', fridge)
           res.send(fridge);
         }
       })
@@ -78,7 +77,6 @@ module.exports = app => {
 
     Item.findOne({ belongsTo: fridgeToAdd, name: item.name }, (err, request) => {
       if (!request){
-        console.log('making new item record from ', fridgeToAdd);
         const newItem = new Item({
           tescoId: item.id,
           tpnb: item.tpnb,
@@ -95,14 +93,11 @@ module.exports = app => {
             hasReminder: false
           }
         })
-        console.log(newItem);
 
         newItem.save((err, data) => {
           if(err) {
             return res.send({ errorMessage: 'Could not save'});
-            console.log('Error saving..', err)
           } else {
-            console.log('New item saved. Sending the following to addToFridge:', data);
             addToFridge(data, fridgeToAdd);
           }
         });

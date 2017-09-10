@@ -3,9 +3,6 @@ import React, {Component} from 'react';
 import ContentsItem from './ContentsItem';
 
 class ContentsList extends Component {
-  componentWillReceiveProps(newProps){
-    console.log('newProps', newProps);
-  }
   renderContents(){
     const list = this.props.contents.map((item) => {
       return(

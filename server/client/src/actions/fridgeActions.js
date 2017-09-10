@@ -4,7 +4,8 @@ import { CREATE_FRIDGE,
          SET_USER_LIST,
          GET_FRIDGE_BY_ID,
          ADD_ITEM,
-         SET_REMINDER
+         SET_REMINDER,
+         UPDATE_FRIDGE_DATE
         } from './types';
 
 export const createFridge = (users) => async dispatch => {
@@ -40,8 +41,12 @@ export const addItem = (item, fridge) => async dispatch => {
 }
 
 export const setReminder = (item, fridge) => async dispatch => {
-  console.log(item, 'axios');
   const res = await axios.post('/api/item/setReminder', {item, fridge} );
   console.log(res);
   dispatch({ type: SET_REMINDER, payload: res.data })
+}
+
+export const updateFridgeDate = (fridge) => async dispatch => {
+  const res = await axios.post('/api/item/updateFridgeDate', {fridge} );
+  dispatch({ type: UPDATE_FRIDGE_DATE, payload: res.data })
 }

@@ -1,35 +1,28 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { addItem } from '../../actions/fridgeActions';
-// import { updateFridge } from '../../actions/fridgeActions'; TODO: make this work
+import { updateFridgeDate } from '../../actions/fridgeActions';
 
 class SearchResultsList extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      items: this.props.fridge.current.items
-    }
-  }
   handleItemClick(item, fridge){
-    this.props.dispatch(addItem(item, fridge));
-    // this.props.dispatch(updateFridge(fridge)); TODO: make this work
-  }
-  checkFridge(item){
-    console.log('hi');
-    console.log('from checkFridge', item);
+    console.log(item, fridge, 'GOING INTO DISPATCH')
+    this.props.dispatch(addItem(item, fridge)).then((res)=>{
+      console.log(res);
+    });
+    this.props.dispatch(updateFridgeDate());
   }
   renderItems(){
     if(this.props.items){
+      console.log('')
       const list = this.props.items.map((item) => {
-        const fridgeItems = this.state.items;
+        const fridgeItems = this.props.items;
         fridgeItems.forEach((i)=>{
-          if(item.name == i.name){
-            console.log('match!');  // TODO: Make list item own component with state/props etc
+          if(item.name === i.name){
           } else {
           }
         })
         return(
-          <li key={item.id} className="list-group-item" onClick={this.handleItemClick.bind(this, item, this.props.fridge)}>
+          <li key={item.id} className="list-group-item" onClick={this.handleItemClick.bind(this, item, this.props.fridge.foundFridge.current._id)}>
             <div>
               <strong>{item.name} </strong><span className="pull-right">£{item.price}</span>
             </div>

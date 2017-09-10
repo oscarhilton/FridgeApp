@@ -22,19 +22,27 @@ class Fridge extends Component {
     this.props.dispatch(getFridgeById(this.props.match.params.id))
   }
   componentWillReceiveProps(newProps){
+    console.log(newProps.items, '<----- ITEMS FROM SEARCH');
     if(newProps.items !== this.props.items){
-         this.setState({items: newProps.items })
+         this.state.items = newProps.items
+         this.setState({
+           items: newProps.items
+         }, () => {console.log(this.state, 'NEW ITEM STATE RECEIVED')} )
      }
     if(newProps.fridge !== this.props.fridge){
-      this.state.fridge = newProps.fridge.foundFridge.current;
+      console.log(newProps, 'NEW PROPS COMING IN!')
       var lastFridgeUpdate = formatDate(newProps.fridge.foundFridge.current.lastUpdated);
-      this.state.lastUpdated = lastFridgeUpdate;
-      var items = newProps.fridge.foundFridge.current.items;
-       items.forEach((item)=>{
+
+      this.setState({
+        fridge: newProps.fridge.foundFridge.current,
+        lastUpdated: lastFridgeUpdate
+      }, () => { console.log(this.state, 'NEW FRIDGE STATE RECEIVED') })
+
+      var contents = newProps.fridge.foundFridge.current.items;
+       contents.forEach((item)=>{
          var formattedTime = formatDate(item.dateAdded);
          item.formattedDateAdded = formattedTime;
        });
-         console.log(this.state)
      }
   }
   getDateCreated(){
@@ -57,7 +65,7 @@ class Fridge extends Component {
           </div>
           <div>
             <h4>Users</h4>
-            <UserList users={this.state.fridge._users} />
+            <UserList users={this.state.fridge._users} needsData={true} />
           </div>
           <h4>
             <span className="label label-info">{this.state.lastUpdate}</span>

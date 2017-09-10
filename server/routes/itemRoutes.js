@@ -7,6 +7,7 @@ module.exports = app => {
     app.post('/api/item/setReminder', requireLogin, (req, res) => {
     const item = req.body.item;
     const fridge = req.body.fridge;
+    
     const reminder = new Date();
     reminder.setDate(reminder.getDate() + 1);
 
@@ -14,6 +15,7 @@ module.exports = app => {
       if (!request){
         return res.send({message: 'Something went horribly wrong'});
       } else {
+        request.lastUpdated = new Date();
         var updatedItems = [];
         request.items.forEach( (el) => {
           if(el._id == item){
@@ -25,7 +27,11 @@ module.exports = app => {
           }
           request.items = updatedItems;
           request.save();
-          console.log(request)
+          return res.send(
+            {
+              updatedFridge: request
+            }
+          );
         })
       }
       });

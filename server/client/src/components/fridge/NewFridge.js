@@ -72,7 +72,7 @@ class NewFridge extends Component {
         <h3>Found user</h3>
         <FoundUser foundUser={this.props.foundUser} btnText={'Add this user'} clickFunction={this.addUser.bind(this)}/>
         <h3>Users to add to this fridge</h3>
-        <UserList users={this.state.usersToAdd} />
+        <UserList users={this.state.usersToAdd} needsData={false} />
         <button onClick={this.createFridge.bind(this)} type="button" className="btn btn-primary">Create New Fridge</button>
       </div>
     );
