@@ -14,7 +14,8 @@ class Fridge extends Component {
   constructor(props){
     super(props);
     this.state = {
-      lastUpdated: '?'
+      lastUpdated: '?',
+      items: []
     }
   }
   componentDidMount(){
@@ -25,25 +26,22 @@ class Fridge extends Component {
          this.setState({items: newProps.items })
      }
     if(newProps.fridge !== this.props.fridge){
-         console.log('fridge update: ', newProps.fridge);
-         this.setState({fridge: newProps.fridge.current });
-         var lastFridgeUpdate = formatDate(newProps.fridge.current.lastUpdated);
-         this.setState({
-           lastUpdate: lastFridgeUpdate
-         })
-         var items = newProps.fridge.current.items;
-         items.forEach((item)=>{
-           console.log(item);
-           var formattedTime = formatDate(item.dateAdded);
-           item.formattedDateAdded = formattedTime;
-         })
+      this.state.fridge = newProps.fridge.foundFridge.current;
+      var lastFridgeUpdate = formatDate(newProps.fridge.foundFridge.current.lastUpdated);
+      this.state.lastUpdated = lastFridgeUpdate;
+      var items = newProps.fridge.foundFridge.current.items;
+       items.forEach((item)=>{
+         var formattedTime = formatDate(item.dateAdded);
+         item.formattedDateAdded = formattedTime;
+       });
+         console.log(this.state)
      }
   }
   getDateCreated(){
 
   }
   render() {
-    if(this.props.fridge.validPage){
+    if(this.state.fridge){
       return (
         <div className="container">
           <div className="row">

@@ -21,7 +21,7 @@ class NewFridge extends Component {
   componentDidMount(){
     var {dispatch} = this.props;
     dispatch(setUserList()).then(()=> {
-      this.updateListState(this.props.fridge.usersToAdd);
+      this.updateListState(this.props.fridge.userList.usersToAdd);
     });
   }
   updateListState(user){
@@ -30,6 +30,7 @@ class NewFridge extends Component {
     })
   }
   createFridge(){
+    console.log(this.state.usersToAdd, 'userstoadd');
     var {dispatch} = this.props;
     dispatch(createFridge(this.state.usersToAdd));
   }

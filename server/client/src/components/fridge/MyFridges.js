@@ -8,16 +8,15 @@ class YourFridges extends Component {
   constructor(props){
     super(props);
     this.state = {
-      fridge: []
+      fridges: []
     }
   }
   componentDidMount() {
     this.props.dispatch(getMyFridges());
   }
   componentWillReceiveProps(newProps){
-    if(newProps.fridge !== this.props.fridge){
-         this.setState({fridge: newProps.fridge });
-         console.log(this.state);
+    if(newProps.fridge.myFridges !== this.props.fridge.myFridges){
+         this.setState({fridges: newProps.fridge.myFridges });
      }
   }
   renderList(){
@@ -31,7 +30,7 @@ class YourFridges extends Component {
     return (
       <div className="jumbotron">
         <h2>Your Fridges</h2>
-        <FridgeList fridge={this.state.fridge} />
+        <FridgeList fridge={this.state.fridges} />
       </div>
     );
   }

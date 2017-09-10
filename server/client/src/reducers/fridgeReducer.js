@@ -12,24 +12,33 @@ export default function(state = {}, action) {
     case CREATE_FRIDGE:
       return state = {
         ...state,
-        action.payload || false
+        newFridge: action.payload || false
       }
     case GET_MY_FRIDGES:
       return state = {
         ...state,
-        action.payload || false
+        myFridges: action.payload || false
       }
     case SET_USER_LIST:
-      return action.payload || false;
+      return state = {
+        ...state,
+        userList: action.payload || false
+      }
     case GET_FRIDGE_BY_ID:
-      return action.payload || false;
+      return state = {
+        ...state,
+        foundFridge: action.payload || false
+      }
     case ADD_ITEM:
       return state = {
         ...state,
         newItem: action.payload || false
       }
     case SET_REMINDER:
-      return action.payload || false;
+      return state = {
+        ...state,
+        updatedFridge: action.payload || false
+      }
     default:
       return state;
   }

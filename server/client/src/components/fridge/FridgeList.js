@@ -1,29 +1,54 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react';
 
-const FridgeList = (props) => {
-  const renderFridges = () => {
-    if(props.fridge.length > 0){
-      const list = props.fridge.map((fridge) => {
+import formatDate from '../../modules/formatDate';
+
+class FridgeList extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      fridge: []
+    }
+  }
+  componentWillReceiveProps(newProps){
+    if(newProps !== this.props.fridge){
+      this.setState({
+        fridge: newProps.fridge
+      })
+    }
+  }
+  renderFridges(){
+    if(this.state.fridge){
+      const list = this.state.fridge.map((fridge) => {
+        console.log(fridge);
         const href = `/fridge/${fridge._id}`;
         return(
           <li key={fridge._id} className="list-group-item">
             <a href={ `/fridge/${fridge._id}` }>{fridge._id}</a>
+            <span className="pull-right">
+              <small>
+                Last updated ... 
+              </small>
+              <span className="label label-info">
+                {formatDate(fridge.lastUpdated)}
+              </span>
+            </span>
           </li>
         )
       });
       return list;
     } else {
       return(
-        <p>loading...</p>
+        <p>You don't have any fridges yet.</p>
       )
     }
-  };
-  return(
-    <ol className="list-group">
-      {renderFridges()}
-    </ol>
-  )
+  }
+  render(){
+    return(
+      <ol className="list-group">
+        {this.renderFridges()}
+      </ol>
+    )
+  }
 }
 
 export default FridgeList;
