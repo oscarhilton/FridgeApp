@@ -21,7 +21,7 @@ class ItemList extends Component {
               <strong>{item.name} </strong><span className="pull-right">£{item.price}</span>
             </div>
             <div>
-              <small>{item.description[0]}</small><small className="pull-right">{item.PromotionDescription}</small>
+              <small>{item.description[0]}</small>
             </div>
           </li>
         )

@@ -4,7 +4,7 @@ class Item extends Component {
   constructor(props){
     super(props);
     this.state = {
-      reminder: '2017-10-10T21:34:14.221Z', //2017-09-09T20:43:13.633Z
+      reminder: '2017-09-10T21:34:14.221Z', //2017-09-09T20:43:13.633Z
       warning: 'info',
       reminderDifference: 0
     }
