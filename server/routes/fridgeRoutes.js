@@ -76,9 +76,9 @@ module.exports = app => {
       })
     }
 
-    Item.findOne({ tescoId: item.id }, (err, request) => {
+    Item.findOne({ belongsTo: fridgeToAdd, name: item.name }, (err, request) => {
       if (!request){
-        console.log('making new item record')
+        console.log('making new item record from ', fridgeToAdd);
         const newItem = new Item({
           tescoId: item.id,
           tpnb: item.tpnb,
@@ -89,19 +89,27 @@ module.exports = app => {
           image: item.image,
           contentsQuantity: item.contentsQuantity,
           contentsMeasureType: item.contentsMeasureType,
-          dateAdded: Date.now()
+          dateAdded: Date.now(),
+          belongsTo: fridgeToAdd,
+          reminder: {
+            hasReminder: false
+          }
         })
+        console.log(newItem);
 
         newItem.save((err, data) => {
           if(err) {
             return res.send({ errorMessage: 'Could not save'});
+            console.log('Error saving..', err)
           } else {
             console.log('New item saved. Sending the following to addToFridge:', data);
             addToFridge(data, fridgeToAdd);
           }
         });
       } else {
-        addToFridge(request, fridgeToAdd);
+        request.quantity++;
+        request.save();
+        return res.send({ successMessage: `Added another ${request.name} to your fridge`});
       }
     });
   });

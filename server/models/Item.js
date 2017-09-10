@@ -11,7 +11,13 @@ const itemSchema = new Schema({
   image: String,
   contentsQuantity: Number,
   contentsMeasureType: String,
-  dateAdded: Date
+  dateAdded: Date,
+  belongsTo: String,
+  reminder: {
+    hasReminder: Boolean,
+    reminderTimer: Date
+  }
+
 })
 
 mongoose.model('item', itemSchema);

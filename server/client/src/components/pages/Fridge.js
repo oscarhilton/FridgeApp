@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import UserList from '../user/UserList';
 import ItemSearchBar from '../fridge/ItemSearchBar';
-import ItemList from '../fridge/ItemList';
+import SearchResultsList from '../fridge/SearchResultsList';
 import ContentsList from '../fridge/ContentsList';
 
 import { getFridgeById } from '../../actions/fridgeActions';
@@ -25,6 +25,7 @@ class Fridge extends Component {
          this.setState({items: newProps.items })
      }
     if(newProps.fridge !== this.props.fridge){
+         console.log('fridge update: ', newProps.fridge);
          this.setState({fridge: newProps.fridge.current });
          var lastFridgeUpdate = formatDate(newProps.fridge.current.lastUpdated);
          this.setState({
@@ -32,6 +33,7 @@ class Fridge extends Component {
          })
          var items = newProps.fridge.current.items;
          items.forEach((item)=>{
+           console.log(item);
            var formattedTime = formatDate(item.dateAdded);
            item.formattedDateAdded = formattedTime;
          })
@@ -40,11 +42,7 @@ class Fridge extends Component {
   getDateCreated(){
 
   }
-  handleItemClick(item){
-    console.log('from Item Click: ', item);
-  }
   render() {
-    console.log('state: ', this.state);
     if(this.props.fridge.validPage){
       return (
         <div className="container">
@@ -52,7 +50,7 @@ class Fridge extends Component {
             <div className="col col-lg-6">
               <h4>Search for new items</h4>
               <ItemSearchBar />
-              <ItemList items={this.state.items} fridge={this.state.fridge._id} />
+              <SearchResultsList items={this.state.items} fridge={this.state.fridge._id} />
             </div>
             <div className="col col-lg-6">
               <h4>Fridge contents</h4>
@@ -73,10 +71,10 @@ class Fridge extends Component {
         <div className="container">
           <div className="jumbotron">
             <h1>
-              No Fridge found
+              Fridge is locked
             </h1>
           </div>
-          <p>Couldn't find a fridge! Check your URL for errors</p>
+          <p>Either couldn't find a fridge or you have resticted access.</p>
         </div>
       )
     }

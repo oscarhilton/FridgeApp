@@ -1,23 +1,28 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-import Item from './Item';
+import ContentsItem from './ContentsItem';
 
-const ContentsList = (props) => {
-  const renderContents = () => {
-    const list = props.contents.map((item) => {
+class ContentsList extends Component {
+  componentWillReceiveProps(newProps){
+    console.log('newProps', newProps);
+  }
+  renderContents(){
+    const list = this.props.contents.map((item) => {
       return(
         <li key={item._id} className="list-group-item">
-          <Item details={item} />
+          <ContentsItem details={item} />
         </li>
       )
     });
     return list;
-  };
-  return(
-    <ol className="list-group">
-      {renderContents()}
-    </ol>
-  )
+  }
+  render(){
+    return(
+      <ol className="list-group">
+        {this.renderContents()}
+      </ol>
+    )
+  }
 }
 
 export default ContentsList;

@@ -3,7 +3,8 @@ import { CREATE_FRIDGE,
          GET_MY_FRIDGES,
          SET_USER_LIST,
          GET_FRIDGE_BY_ID,
-         ADD_ITEM
+         ADD_ITEM,
+         SET_REMINDER
         } from './types';
 
 export const createFridge = (users) => async dispatch => {
@@ -27,7 +28,6 @@ export const setUserList = () => async dispatch => {
 
 export const getFridgeById = (id) => async dispatch => {
   const res = await axios.get('/api/fridge/findById', { params: {id } });
-  console.log('getFridgeById: ', res.data);
   dispatch({ type: GET_FRIDGE_BY_ID, payload: {
     validPage: true,
     current: res.data
@@ -36,6 +36,12 @@ export const getFridgeById = (id) => async dispatch => {
 
 export const addItem = (item, fridge) => async dispatch => {
   const res = await axios.post('/api/fridge/addItem', {item, fridge} );
-  console.log('addItem: ', res.data);
   dispatch({ type: ADD_ITEM, payload: { ...res.data, something: 'else' } })
+}
+
+export const setReminder = (item, fridge) => async dispatch => {
+  console.log(item, 'axios');
+  const res = await axios.post('/api/item/setReminder', {item, fridge} );
+  console.log(res);
+  dispatch({ type: SET_REMINDER, payload: res.data })
 }

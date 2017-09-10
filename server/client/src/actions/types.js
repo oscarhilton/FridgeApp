@@ -9,3 +9,4 @@ export const ADD_USER_TO_LIST = 'add_user_to_list';
 export const GET_FRIDGE_BY_ID = 'get_fridge_by_id';
 export const GET_ITEMS = 'get_items';
 export const ADD_ITEM = 'add_item';
+export const SET_REMINDER = 'set_reminder';
