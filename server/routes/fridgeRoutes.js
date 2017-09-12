@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Fridge = mongoose.model('fridge');
-const Item = mongoose.model('item');
+const Fridge = mongoose.model('Fridge');
+const Item = mongoose.model('Item');
 const requireLogin = require('../middlewares/requireLogin');
 
 module.exports = app => {
@@ -61,6 +61,17 @@ module.exports = app => {
     })
   });
 
+  app.get('/api/fridge/getItems', requireLogin, (req, res) =>{
+    const _id = req.query.id;
+    Fridge.findOne({ _id }, (err, fridge) => {
+      if(err) {
+        return err;
+      } else {
+        res.send(fridge);
+      }
+    })
+  })
+
   app.post('/api/fridge/addItem', requireLogin, (req, res) => {
     const item = req.body.item;
     const fridgeToAdd = req.body.fridge;
@@ -70,7 +81,7 @@ module.exports = app => {
         if(err) {return err;} else {
           fridge.items.push(item);
           fridge.save();
-          res.send(fridge);
+          res.send(fridge.items[fridge.items.length -1]);
         }
       })
     }

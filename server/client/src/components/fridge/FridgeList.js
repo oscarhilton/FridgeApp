@@ -19,15 +19,11 @@ class FridgeList extends Component {
   renderFridges(){
     if(this.state.fridge){
       const list = this.state.fridge.map((fridge) => {
-        console.log(fridge);
         const href = `/fridge/${fridge._id}`;
         return(
           <li key={fridge._id} className="list-group-item">
             <a href={ `/fridge/${fridge._id}` }>{fridge._id}</a>
             <span className="pull-right">
-              <small>
-                Last updated ... 
-              </small>
               <span className="label label-info">
                 {formatDate(fridge.lastUpdated)}
               </span>

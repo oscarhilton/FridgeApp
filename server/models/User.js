@@ -10,4 +10,4 @@ const userSchema = new Schema({
   profileImage: String
 });
 
-mongoose.model('users', userSchema);
+mongoose.model('User', userSchema);

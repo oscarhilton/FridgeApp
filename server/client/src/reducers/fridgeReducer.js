@@ -25,14 +25,22 @@ export default function(state = {}, action) {
         userList: action.payload || false
       }
     case GET_FRIDGE_BY_ID:
+      console.log(action, 'ACTION!!!!');
       return state = {
         ...state,
-        foundFridge: action.payload || false
+        id: action.payload.current._id || false,
+        validPage: action.payload.validPage || false,
+        users: action.payload.users || false,
+        contents: action.payload.current.items || false,
+        lastUpdated: action.payload.current.lastUpdated || false,
       }
     case ADD_ITEM:
       return state = {
         ...state,
-        newItem: action.payload || false
+        contents: [
+          action.payload,
+          ...state.contents
+        ]
       }
     case SET_REMINDER:
       return state = {

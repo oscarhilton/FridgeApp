@@ -10,6 +10,10 @@ import reducers from './reducers';
 
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
+store.subscribe(()=>{
+  console.log(store.getState(), '<----SUBSCRIBE!!');
+})
+
 ReactDom.render(
   <Provider store={store}>
     <App />

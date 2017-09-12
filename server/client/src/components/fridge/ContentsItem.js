@@ -50,13 +50,13 @@ class ContentsItem extends Component {
   render(){
     return(
       <div>
-        <div>
-          <strong>{this.props.details.name}</strong>
-          <span className={`pull-right label label-${this.state.warning}`}>added {this.props.details.formattedDateAdded}</span>
-        </div>
-        <div>
-          <button onClick={this.setReminder.bind(this)} type="button" className="btn btn-secondary btn-sm">Set reminder</button>
-        </div>
+          <div>
+            <strong>{this.props.details.name}</strong>
+            <span className={`pull-right label label-${this.state.warning}`}>added {this.props.details.formattedDateAdded}</span>
+          </div>
+          <div>
+            <button onClick={this.setReminder.bind(this)} type="button" className="btn btn-secondary btn-sm">Set reminder</button>
+          </div>
       </div>
     )
   }

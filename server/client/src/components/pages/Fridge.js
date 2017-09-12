@@ -15,60 +15,77 @@ class Fridge extends Component {
     super(props);
     this.state = {
       lastUpdated: '?',
-      items: []
+      items: [],
+      users: []
     }
   }
   componentDidMount(){
     this.props.dispatch(getFridgeById(this.props.match.params.id))
   }
   componentWillReceiveProps(newProps){
-    console.log(newProps.items, '<----- ITEMS FROM SEARCH');
-    if(newProps.items !== this.props.items){
-         this.state.items = newProps.items
-         this.setState({
-           items: newProps.items
-         }, () => {console.log(this.state, 'NEW ITEM STATE RECEIVED')} )
-     }
-    if(newProps.fridge !== this.props.fridge){
-      console.log(newProps, 'NEW PROPS COMING IN!')
-      var lastFridgeUpdate = formatDate(newProps.fridge.foundFridge.current.lastUpdated);
+    console.log(newProps, '<----- NEW PROPS');
 
+    const fridgeProps = this.props.fridge;
+
+    const { fridge, items } = newProps;
+    const { users, lastUpdated, contents, id } = fridge;
+
+    if(fridge !== fridgeProps){
+      contents.forEach( (item) => {
+        const formattedTime = formatDate(item.dateAdded);
+        item.formattedDateAdded = formattedTime;
+      })
       this.setState({
-        fridge: newProps.fridge.foundFridge.current,
-        lastUpdated: lastFridgeUpdate
-      }, () => { console.log(this.state, 'NEW FRIDGE STATE RECEIVED') })
-
-      var contents = newProps.fridge.foundFridge.current.items;
-       contents.forEach((item)=>{
-         var formattedTime = formatDate(item.dateAdded);
-         item.formattedDateAdded = formattedTime;
-       });
-     }
+        contents,
+        id
+      }, () => { console.log(this.state) })
+    }
+    if(users !== fridgeProps.users){
+      this.setState({
+        users
+      })
+    }
+    if(lastUpdated !== fridgeProps.lastUpdated){
+      var newTime = formatDate(lastUpdated);
+      this.setState({
+        lastUpdated: newTime
+      })
+    }
+    if(items !== this.props.items){
+      this.setState({
+        items
+      })
+    }
   }
   getDateCreated(){
 
   }
   render() {
-    if(this.state.fridge){
+    console.log(this.state.users, '<----- USERS STATE !? :=)');
+    if(this.props.fridge.validPage){
       return (
         <div className="container">
-          <div className="row">
-            <div className="col col-lg-6">
-              <h4>Search for new items</h4>
-              <ItemSearchBar />
-              <SearchResultsList items={this.state.items} fridge={this.state.fridge._id} />
-            </div>
-            <div className="col col-lg-6">
-              <h4>Fridge contents</h4>
-              <ContentsList contents={this.state.fridge.items}/>
-            </div>
+        <div className="row">
+          <div className="col col-lg-6">
+            <h4>Search for new items</h4>
+            <ItemSearchBar />
+            <SearchResultsList
+              items={this.state.items}
+              fridge={this.state.id}
+              contents={this.state.contents}
+              />
           </div>
+          <div className="col col-lg-6">
+            <h4>Fridge contents</h4>
+            <ContentsList contents={this.state.contents}/>
+          </div>
+        </div>
           <div>
             <h4>Users</h4>
-            <UserList users={this.state.fridge._users} needsData={true} />
+            <UserList users={this.state.users} />
           </div>
           <h4>
-            <span className="label label-info">{this.state.lastUpdate}</span>
+            <span className="label label-info">{this.state.lastUpdated}</span>
           </h4>
         </div>
       );
@@ -86,6 +103,23 @@ class Fridge extends Component {
     }
   }
 }
+//
+// <div className="row">
+//   <div className="col col-lg-6">
+//     <h4>Search for new items</h4>
+//     <ItemSearchBar />
+//     <SearchResultsList items={this.state.items} fridge={this.state.fridge._id} />
+//   </div>
+//   <div className="col col-lg-6">
+//     <h4>Fridge contents</h4>
+//     <ContentsList contents={this.state.fridge.items}/>
+//   </div>
+// </div>
+
+
+// <h4>
+//   <span className="label label-info">{this.state.lastUpdate}</span>
+// </h4>
 
 function mapStateToProps(state) {
   return {

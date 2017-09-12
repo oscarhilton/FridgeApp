@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = mongoose.model('users');
+const User = mongoose.model('User');
 const requireLogin = require('../middlewares/requireLogin');
 
 module.exports = app => {
@@ -14,6 +14,17 @@ module.exports = app => {
         res.send({errorMessage: 'Same user as logged in user!'});
       } else if (!user) {
         res.send({errorMessage: 'No user found with that email!'});
+      } else {
+        res.send(user);
+      }
+    })
+  });
+  app.get('/api/user/find/byID', (req, res) => {
+    const _id = req.query.id;
+    User.findOne({ _id }, (err, user) => {
+      if(err) {
+        res.send({errorMessage: 'Same user as logged in user!'});
+        return err;
       } else {
         res.send(user);
       }

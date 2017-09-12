@@ -1,35 +1,30 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { CSSTransitionGroup } from 'react-transition-group';
+
 import { addItem } from '../../actions/fridgeActions';
 import { updateFridgeDate } from '../../actions/fridgeActions';
+
+import SearchResultItem from './SearchResultItem';
 
 class SearchResultsList extends Component {
   handleItemClick(item, fridge){
     console.log(item, fridge, 'GOING INTO DISPATCH')
     this.props.dispatch(addItem(item, fridge)).then((res)=>{
-      console.log(res);
+      console.log(res, '<---- RESULT OF DISPATCH');
     });
-    this.props.dispatch(updateFridgeDate());
   }
   renderItems(){
     if(this.props.items){
-      console.log('')
+      const {contents} = this.props
       const list = this.props.items.map((item) => {
-        const fridgeItems = this.props.items;
-        fridgeItems.forEach((i)=>{
-          if(item.name === i.name){
-          } else {
-          }
-        })
         return(
-          <li key={item.id} className="list-group-item" onClick={this.handleItemClick.bind(this, item, this.props.fridge.foundFridge.current._id)}>
-            <div>
-              <strong>{item.name} </strong><span className="pull-right">£{item.price}</span>
-            </div>
-            <div>
-              <small>{item.description[0]}</small>
-            </div>
-          </li>
+          <CSSTransitionGroup
+            transitionName="example"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={0}>
+              <SearchResultItem item={item} contents={contents} handleClick={this.handleItemClick.bind(this, item, this.props.fridge)}/>
+          </CSSTransitionGroup>
         )
       });
       return list;
@@ -44,10 +39,4 @@ class SearchResultsList extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    fridge: state.fridge
-  };
-}
-
-export default connect(mapStateToProps)(SearchResultsList);
+export default connect()(SearchResultsList);

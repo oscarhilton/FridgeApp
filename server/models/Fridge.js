@@ -4,15 +4,8 @@ const itemSchema = require('./Item');
 
 const fridgeSchema = new Schema({
   items: [itemSchema],
-  _users: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      firstName: String,
-      lastName: String,
-      gender: String
-    }],
+  _users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   lastUpdated: Date
 })
 
-mongoose.model('fridge', fridgeSchema);
+mongoose.model('Fridge', fridgeSchema);

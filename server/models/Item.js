@@ -12,7 +12,7 @@ const itemSchema = new Schema({
   contentsQuantity: Number,
   contentsMeasureType: String,
   dateAdded: Date,
-  belongsTo: String,
+  _fridge: [{ type: Schema.Types.ObjectId, ref: 'Fridge' }],
   reminder: {
     hasReminder: Boolean,
     reminderTimer: Date
@@ -20,4 +20,4 @@ const itemSchema = new Schema({
 
 })
 
-mongoose.model('item', itemSchema);
+mongoose.model('Item', itemSchema);

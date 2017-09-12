@@ -29,15 +29,22 @@ export const setUserList = () => async dispatch => {
 
 export const getFridgeById = (id) => async dispatch => {
   const res = await axios.get('/api/fridge/findById', { params: {id } });
+  var getFridgeUsers = [];
+  res.data._users.forEach( async (id)=>{
+    const res = await axios.get('/api/user/find/byID', {params: {id} });
+    getFridgeUsers.push(res.data);
+  })
+  console.log(getFridgeUsers, '<--- FRIDGE USERS');
   dispatch({ type: GET_FRIDGE_BY_ID, payload: {
     validPage: true,
-    current: res.data
+    current: res.data,
+    users: getFridgeUsers
   } })
 }
 
 export const addItem = (item, fridge) => async dispatch => {
   const res = await axios.post('/api/fridge/addItem', {item, fridge} );
-  dispatch({ type: ADD_ITEM, payload: { ...res.data, something: 'else' } })
+  dispatch({ type: ADD_ITEM, payload: res.data })
 }
 
 export const setReminder = (item, fridge) => async dispatch => {
